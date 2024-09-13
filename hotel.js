@@ -2,9 +2,9 @@
 var nomeHotel = "Hotel Terra Mágica";
 var senha = 2678;
 
+
 // exibe a mensagem de boas-vindas
 alert("Olá! Bem-vindo(a) ao " + nomeHotel + "!");
-
 // nome do usuário
 var nome = prompt("Por favor, digite seu nome!");
 
@@ -13,11 +13,9 @@ var nome = prompt("Por favor, digite seu nome!");
 // função para verificar a senha
 function verificarSenha() {
     var senhaInformada = parseInt(prompt("Por favor, insira sua senha!"));
-
     while (senhaInformada !== senha) {
         senhaInformada = parseInt(prompt("Senha incorreta! Por favor, insira sua senha novamente!"));
     }
-
     alert("Bem-vindo(a) ao " + nomeHotel + ", " + nome + ". É um imenso prazer ter você por aqui!");
 }
 verificarSenha();
@@ -34,7 +32,6 @@ function sair() {
 // função para erro
 function erro() {
     alert("Operação não autorizada!");
-    inicio();
 }
 
 
@@ -109,23 +106,17 @@ function inicio() {
     } while (opcao !== 8);
 }
 
-inicio();
 
 
-
-// função de reservar quartos 
+// Função de reservar quartos
 function reserva() {
-    // solicita o valor padrão da diária e valida a entrada
     var diaria = parseFloat(prompt("Qual o valor padrão da diária?"));
     while (diaria <= 0) {
         alert("Valor inválido, " + nome);
         diaria = parseFloat(prompt("Qual o valor padrão da diária?"));
     }
 
-    // solicita o nome do hóspede e valida a entrada
     var nomeHospede = prompt("Qual o nome do hóspede?");
-
-    // Solicita e valida o número de diárias
     var diasDiaria = parseInt(prompt("Quantas diárias serão necessárias?"));
     while (diasDiaria < 1 || diasDiaria > 30) {
         alert("Número de diárias inválido. Por favor, insira um número entre 1 e 30.");
@@ -135,34 +126,29 @@ function reserva() {
     var valorDiaria = diasDiaria * diaria;
     alert("O valor de " + diasDiaria + " dias de hospedagem é: R$" + valorDiaria.toFixed(2));
 
-    // escolher um quarto
     while (true) {
         var numeroQuarto = parseInt(prompt("Escolha o quarto desejado (de 1 a 20):"));
-        
-        // valida a entrada do número do quarto
         if (numeroQuarto < 1 || numeroQuarto > 20) {
             alert("Número de quarto não existente! Por favor, escolha um quarto de 1 a 20!");
-            continue; 
+            continue;
         }
 
-        var indice = numeroQuarto - 1; 
+        var indice = numeroQuarto - 1;
 
         if (quartos[indice].ocupado) {
             alert("Quarto já ocupado! Por favor, escolha outro quarto.");
         } else {
-            // Confirmação da reserva
             var confirmacao = prompt(nome + ", você confirma a hospedagem para " + nomeHospede + 
                 " por " + diasDiaria + " dias para o quarto " + numeroQuarto + 
                 " por R$" + valorDiaria.toFixed(2) + "? (SIM ou NÃO)").toUpperCase();
 
             if (confirmacao === 'SIM') {
-                quartos[indice].ocupado = true; 
-                quartos[indice].hospede = nomeHospede; 
+                quartos[indice].ocupado = true;
+                quartos[indice].hospede = nomeHospede;
                 alert(nome + ", reserva efetuada para " + nomeHospede + ".");
-                break; 
+                break;
             } else {
                 alert("Reserva não confirmada.");
-    
             }
         }
     }
@@ -170,3 +156,50 @@ function reserva() {
 }
 
 
+
+// função para cadastrar hóspedes
+function cadastro() {
+    var valorDiariaCadastro = parseFloat(prompt("Qual o valor padrão da diária?"));
+
+    while (isNaN(valorDiariaCadastro) || valorDiariaCadastro <= 0) {
+        alert("Valor inválido! Por favor, insira um valor numérico maior que 0.");
+        valorDiariaCadastro = parseFloat(prompt("Qual o valor padrão da diária?"));
+    }
+
+    var totalDiariaCadastro = 0;
+    var totalGratuidades = 0;
+    var totalMeias = 0;
+
+    while (true) {
+        var nomeHospedeCadastro = prompt("Qual o nome do hóspede? (Digite PARE para parar)");
+        if (nomeHospedeCadastro.toUpperCase() === "PARE") {
+            break;
+        }
+
+        var idadeHospedeCadastro = parseInt(prompt("Qual a idade do hóspede?"));
+        while (isNaN(idadeHospedeCadastro) || idadeHospedeCadastro < 0) {
+            alert("Idade inválida! Por favor, insira uma idade numérica positiva.");
+            idadeHospedeCadastro = parseInt(prompt("Qual a idade do hóspede?"));
+        }
+
+        if (idadeHospedeCadastro < 6) {
+            alert(nomeHospedeCadastro + " cadastrada(o) com sucesso. " + nomeHospedeCadastro + " possui gratuidade!");
+            totalGratuidades++;
+        } else if (idadeHospedeCadastro >= 60) {
+            alert(nomeHospedeCadastro + " cadastrada(o) com sucesso. " + nomeHospedeCadastro + " paga meia!");
+            totalDiariaCadastro += valorDiariaCadastro / 2;
+            totalMeias++;
+        } else {
+            alert(nomeHospedeCadastro + " cadastrada(o) com sucesso.");
+            totalDiariaCadastro += valorDiariaCadastro;
+        }
+    }
+
+    alert("O valor total das hospedagens é: R$" + totalDiariaCadastro.toFixed(2) + 
+        "; " + totalGratuidades + " gratuidade(s); " + totalMeias + " meia(s)");
+}
+
+
+
+// inicializa o fluxo do programa
+inicio();
