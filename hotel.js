@@ -244,5 +244,32 @@ function listarHospedesPesquisa() {
     }
 }
 
+//função evento (em andamento)
+function eventos(){
+
+}
+
+// função para determinar a opção mais barata para abastecimento
+function abastecer() {
+    var alcoolWayne = parseFloat(prompt("Qual o valor do álcool no posto Wayne Oil?"));
+    var gasolinaWayne = parseFloat(prompt("Qual o valor da gasolina no posto Wayne Oil?"));
+    var alcoolStark = parseFloat(prompt("Qual o valor do álcool no posto Stark Petrol?"));
+    var gasolinaStark = parseFloat(prompt("Qual o valor da gasolina no posto Stark Petrol?"));
+
+    // Determina a opção mais barata
+    if (alcoolWayne < gasolinaWayne && alcoolWayne < alcoolStark && alcoolWayne < gasolinaStark) {
+        alert(nome + ", a opção mais barata para abastecimento é álcool no posto Wayne Oil.");
+    } else if (alcoolStark < gasolinaStark && alcoolStark < gasolinaWayne && alcoolStark < alcoolWayne) {
+        alert(nome + ", a opção mais barata para abastecimento é álcool no posto Stark Petrol.");
+    } else if (gasolinaWayne < gasolinaStark && gasolinaWayne < alcoolWayne && gasolinaWayne < alcoolStark) {
+        alert(nome + ", a opção mais barata para abastecimento é gasolina no posto Wayne Oil.");
+    } else if (gasolinaStark < gasolinaWayne && gasolinaStark < alcoolWayne && gasolinaStark < alcoolStark) {
+        alert(nome + ", a opção mais barata para abastecimento é gasolina no posto Stark Petrol.");
+    } else {
+        alert(nome + ", Os preços são iguais.");
+    }
+}
+
+
 // chama o menu principal após a verificação da senha
 inicio();
