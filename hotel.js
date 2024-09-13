@@ -2,13 +2,10 @@
 var nomeHotel = "Hotel Terra Mágica";
 var senha = 2678;
 
-
 // exibe a mensagem de boas-vindas
 alert("Olá! Bem-vindo(a) ao " + nomeHotel + "!");
 // nome do usuário
 var nome = prompt("Por favor, digite seu nome!");
-
-
 
 // função para verificar a senha
 function verificarSenha() {
@@ -20,21 +17,10 @@ function verificarSenha() {
 }
 verificarSenha();
 
-
-
 // função para sair
 function sair() {
     alert("Muito obrigado e até logo, " + nome + "!");
 }
-
-
-
-// função para erro
-function erro() {
-    alert("Operação não autorizada!");
-}
-
-
 
 // função para exibir a lista de quartos e suas ocupações
 function exibirListaQuartos(quartos) {
@@ -44,10 +30,9 @@ function exibirListaQuartos(quartos) {
     alert("Lista de quartos disponíveis e indisponíveis: " + lista);
 }
 
-
-
-// inicializa o array de quartos
+// inicializa o array de quartos e a lista de hóspedes
 var quartos = Array(20).fill(null).map(() => ({ ocupado: false, hospede: "" }));
+var hospedes = []; // Lista para hóspedes cadastrados
 
 // função do menu principal
 function inicio() {
@@ -58,11 +43,10 @@ function inicio() {
             "[1] Reserva\n" +
             "[2] Cadastro de Hóspedes\n" +
             "[3] Pesquisar Hóspedes\n" +
-            "[4] Listar Hóspedes\n" +
-            "[5] Eventos\n" +
-            "[6] Abastecer\n" +
-            "[7] Manutenção de Ar Condicionado\n" +
-            "[8] Sair"
+            "[4] Eventos\n" +
+            "[5] Abastecer\n" +
+            "[6] Manutenção de Ar Condicionado\n" +
+            "[7] Sair"
         ));
 
         switch (opcao) {
@@ -75,26 +59,22 @@ function inicio() {
                 break;
 
             case 3:
-                pesquisar();
+                menuPesquisa(); 
                 break;
 
             case 4:
-                listar();
-                break;
-
-            case 5:
                 eventos();
                 break;
 
-            case 6:
+            case 5:
                 abastecer();
                 break;
 
-            case 7:
+            case 6:
                 manutencao();
                 break;
 
-            case 8:
+            case 7:
                 sair();
                 break;
 
@@ -102,13 +82,10 @@ function inicio() {
                 alert("Opção inválida! Tente novamente!");
                 break;
         }
-
-    } while (opcao !== 8);
+    } while (opcao !== 7);
 }
 
-
-
-// Função de reservar quartos
+// Função para reservar quartos
 function reserva() {
     var diaria = parseFloat(prompt("Qual o valor padrão da diária?"));
     while (diaria <= 0) {
@@ -155,9 +132,7 @@ function reserva() {
     exibirListaQuartos(quartos);
 }
 
-
-
-// função para cadastrar hóspedes
+// Função para cadastrar hóspedes
 function cadastro() {
     var valorDiariaCadastro = parseFloat(prompt("Qual o valor padrão da diária?"));
 
@@ -199,7 +174,75 @@ function cadastro() {
         "; " + totalGratuidades + " gratuidade(s); " + totalMeias + " meia(s)");
 }
 
+// função para mostrar o menu da opção pesquisa
+function menuPesquisa() {
+    var opcaoPesquisa;
+    do {
+        opcaoPesquisa = parseInt(prompt(
+            "Selecione uma opção:\n" +
+            "[1] Cadastrar\n" +
+            "[2] Pesquisar\n" +
+            "[3] Listar\n" +
+            "[4] Sair"
+        ));
 
+        switch (opcaoPesquisa) {
+            case 1:
+                cadastrarPesquisa();
+                break;
 
-// inicializa o fluxo do programa
+            case 2:
+                pesquisar();
+                break;
+
+            case 3:
+                listarHospedesPesquisa();
+                break;
+
+            case 4:
+                alert(nome + ", até logo!");
+                break;
+
+            default:
+                alert("Opção inválida! Tente novamente.");
+                break;
+        }
+    } while (opcaoPesquisa !== 4);
+}
+
+// função para cadastrar um hóspede
+function cadastrarPesquisa() {
+    if (hospedes.length >= 15) {
+        alert("Máximo de cadastros atingido.");
+        return;
+    }
+
+    var nomeHospede = prompt("Qual o nome do hóspede?");
+    hospedes.push(nomeHospede);
+    alert("Hóspede " + nomeHospede + " foi cadastrado(a) com sucesso!");
+}
+
+// função para pesquisar um hóspede
+function pesquisar() {
+    var nomeHospedePesquisa = prompt("Qual o nome do hóspede?");
+    var encontrado = hospedes.includes(nomeHospedePesquisa);
+
+    if (encontrado) {
+        alert(nomeHospedePesquisa + " foi encontrado.");
+    } else {
+        alert(nomeHospedePesquisa + " não foi encontrado.");
+    }
+}
+
+// função para listar todos os hóspedes cadastrados
+function listarHospedesPesquisa() {
+    if (hospedes.length === 0) {
+        alert("Nenhum hóspede cadastrado.");
+    } else {
+        var lista = hospedes.join('\n');
+        alert("Lista de hóspedes:\n" + lista);
+    }
+}
+
+// chama o menu principal após a verificação da senha
 inicio();
