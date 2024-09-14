@@ -256,7 +256,7 @@ function abastecer() {
     var alcoolStark = parseFloat(prompt("Qual o valor do álcool no posto Stark Petrol?"));
     var gasolinaStark = parseFloat(prompt("Qual o valor da gasolina no posto Stark Petrol?"));
 
-    // Determina a opção mais barata
+    // determina a opção mais barata
     if (alcoolWayne < gasolinaWayne && alcoolWayne < alcoolStark && alcoolWayne < gasolinaStark) {
         alert(nome + ", a opção mais barata para abastecimento é álcool no posto Wayne Oil.");
     } else if (alcoolStark < gasolinaStark && alcoolStark < gasolinaWayne && alcoolStark < alcoolWayne) {
@@ -270,6 +270,41 @@ function abastecer() {
     }
 }
 
+//função manutenção do ar condiconado
+function manutencao() {
+    var menorValor = null;
+    var empresaMenorValor = "";
+    var continuar = "S";
+
+    while (continuar.toUpperCase() === "S") {
+        var nomeEmpresa = prompt("Qual o nome da empresa?");
+        var valorAparelho = parseFloat(prompt("Qual o valor por aparelho?"));
+        var quantidadeAparelho = parseInt(prompt("Qual a quantidade de aparelhos?"));
+        var desconto = parseFloat(prompt("Qual a porcentagem do desconto?"));
+        var quantidadeMinima = parseInt(prompt("Qual a quantidade mínima para conseguir o desconto?"));
+
+        // calculo do valor total sem desconto
+        var valorTotal = valorAparelho * quantidadeAparelho;
+
+        // desconto
+        var valorManutencao;
+        if (quantidadeAparelho >= quantidadeMinima) {
+            var valorDesconto = (valorTotal * desconto) / 100;
+            valorManutencao = valorTotal - valorDesconto;
+        } else {
+            valorManutencao = valorTotal;
+        }
+
+        alert("O serviço da " + nomeEmpresa + " custará R$ " + valorManutencao.toFixed(2));
+
+        if (menorValor === null || valorManutencao < menorValor) {
+            menorValor = valorManutencao;
+            empresaMenorValor = nomeEmpresa;
+        }
+        continuar = prompt("Deseja informar novos dados? (S/N)");
+    }
+    alert("O orçamento de menor valor é o de " + empresaMenorValor + " por R$ " + menorValor.toFixed(2));
+}
 
 // chama o menu principal após a verificação da senha
 inicio();
