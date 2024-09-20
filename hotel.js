@@ -24,7 +24,7 @@ function sair() {
 
 // função para exibir a lista de quartos e suas ocupações
 function exibirListaQuartos(quartos) {
-    var lista = quartos.map((quarto, index) => 
+    var lista = quartos.map((quarto, index) =>
         `${index + 1} - ${quarto.ocupado ? 'ocupado por ' + quarto.hospede : 'livre'}`
     ).join('; ');
     alert("Lista de quartos disponíveis e indisponíveis: " + lista);
@@ -59,7 +59,7 @@ function inicio() {
                 break;
 
             case 3:
-                menuPesquisa(); 
+                menuPesquisa();
                 break;
 
             case 4:
@@ -115,8 +115,8 @@ function reserva() {
         if (quartos[indice].ocupado) {
             alert("Quarto já ocupado! Por favor, escolha outro quarto.");
         } else {
-            var confirmacao = prompt(nome + ", você confirma a hospedagem para " + nomeHospede + 
-                " por " + diasDiaria + " dias para o quarto " + numeroQuarto + 
+            var confirmacao = prompt(nome + ", você confirma a hospedagem para " + nomeHospede +
+                " por " + diasDiaria + " dias para o quarto " + numeroQuarto +
                 " por R$" + valorDiaria.toFixed(2) + "? (SIM ou NÃO)").toUpperCase();
 
             if (confirmacao === 'SIM') {
@@ -170,7 +170,7 @@ function cadastro() {
         }
     }
 
-    alert("O valor total das hospedagens é: R$" + totalDiariaCadastro.toFixed(2) + 
+    alert("O valor total das hospedagens é: R$" + totalDiariaCadastro.toFixed(2) +
         "; " + totalGratuidades + " gratuidade(s); " + totalMeias + " meia(s)");
 }
 
@@ -244,9 +244,119 @@ function listarHospedesPesquisa() {
     }
 }
 
-//função evento (em andamento)
-function eventos(){
+//função evento 
+function eventos() {
+    var auditorioLaranja = 150;
+    var totalCapacidadeLaranja = auditorioLaranja + 70; // capacidade total com cadeiras adicionais
+    var auditorioColorado = 350;
 
+    var numeroConvidados = parseInt(prompt("Qual o número de convidados?"));
+
+    // verifica qual auditório utilizar
+    if (numeroConvidados > auditorioColorado || numeroConvidados < 0) {
+        alert("Quantidade de convidados inválida ou superior à capacidade máxima!");
+    } else if (numeroConvidados <= auditorioLaranja) {
+        alert("O auditório mais adequado para esse evento é o Auditório Laranja!");
+    } else if (numeroConvidados > auditorioLaranja && numeroConvidados <= totalCapacidadeLaranja) {
+        var cadeirasAdicionais = totalCapacidadeLaranja - numeroConvidados;
+        alert("Use o Auditório Laranja e inclua mais " + cadeirasAdicionais + " cadeiras.");
+    } else {
+        alert("O auditório mais adequado para esse evento é o Auditório Colorado!");
+    }
+
+    alert("Vamos agendar o evento!");
+
+    // Pergunta o dia do evento
+    var dia = prompt("Qual o dia do seu evento?").toLowerCase();
+    // Pergunta a hora do evento
+    var hora = parseInt(prompt("Qual o horário do evento?"));
+
+    var disponibilidade = false;
+
+    // Verifica se o dia é dia de semana
+    if (dia === "segunda" || dia === "terca" || dia === "quarta" || dia === "quinta" || dia === "sexta") {
+        if (hora >= 7 && hora <= 23) {
+            disponibilidade = true;
+        }
+        // Verifica se é final de semana
+    } else if (dia === "sabado" || dia === "domingo") {
+        if (hora >= 7 && hora <= 15) {
+            disponibilidade = true;
+        }
+    }
+
+    // Se o auditório estiver disponível, pede o nome da empresa
+    if (disponibilidade) {
+        var nomeEmpresaEvento = prompt("Qual o nome da empresa?");
+        alert("Auditório reservado para " + nomeEmpresaEvento + ". " + dia + " às " + hora + " horas.");
+    } else {
+        alert("Auditório indisponível.");
+    }
+
+    //garçons para o evento
+    var custoGarcomPorHora = 10.50;
+
+    // pergunta a duração do evento
+    var duracao = parseInt(prompt("Qual a duração do evento em horas?"));
+
+    // calcula o número de garçons necessários
+    var garconsPorConvidados = (numeroConvidados / 12);
+    if (numeroConvidados % 12 !== 0) {
+        garconsPorConvidados = parseInt(garconsPorConvidados) + 1;
+    } else {
+        garconsPorConvidados = parseInt(garconsPorConvidados);
+    }
+
+    // cálculo do total de garçons (apenas por convidados)
+    var totalGarcons = garconsPorConvidados;
+
+    // Calcula o custo total
+    var custoGarcom = totalGarcons * duracao * custoGarcomPorHora;
+
+    // Exibe os resultados
+    alert("São necessários " + totalGarcons + " garçons.");
+    alert("Custo: R$ " + custoGarcom.toFixed(2));
+    alert("Agora vamos calcular o custo do buffet do hotel para o evento.");
+
+    //buffet do hotel
+    var precoCafePorLitro = 0.80;
+    var precoAguaPorLitro = 0.40;
+    var precoCentosSalgados = 34;
+
+    var agua = numeroConvidados * 0.5;
+    var cafe = numeroConvidados * 0.2;
+    var salgados = numeroConvidados * 7;
+
+    var custoCafe = cafe * precoCafePorLitro;
+    var custoAgua = agua * precoAguaPorLitro;
+
+    var quantosCentosSalgados = (salgados + 99) / 100;
+    var centosSalgados = (quantosCentosSalgados - (quantosCentosSalgados % 1));
+    if (salgados % 100 !== 0) {
+        centosSalgados += 1;
+    }
+    var custoSalgados = centosSalgados * precoCentosSalgados;
+    var custoTotalBuffet = custoCafe + custoAgua + custoSalgados;
+    var valorTotalEvento = custoGarcom + custoTotalBuffet;
+
+    alert("O evento precisará de " + cafe + " litros de café, " + agua + " litros de água, " + salgados + " salgados.");
+
+    alert("Evento no Auditóorio.\n" +
+        "Nome da Empresa: " + nomeEmpresaEvento + "\n" +
+        "Data: " + dia + " às " + hora + " horas.\n" +
+        "Duração do evento: " + duracao + " horas.\n" +
+        "Quantidade de garçons: " + totalGarcons + "\n" +
+        "Quantidade de Convidados: " + numeroConvidados + "\n\n" +
+        "Custo dos garçons: R$ " + custoGarcom.toFixed(2) + "\n" +
+        "Custo do Buffet: R$ " + custoTotalBuffet.toFixed(2) + "\n\n" +
+        "Valor total do Evento: R$ " + valorTotalEvento.toFixed(2));
+
+    var reservaEvento = prompt("Gostaria de efetuar reserva? (S/N)");
+    if (reservaEvento.toUpperCase() === "S") {
+        alert("Reserva efetuada com sucesso.");
+    } else {
+        alert("Reserva não efetuada.");
+    }
 }
 
 // função para determinar a opção mais barata para abastecimento
